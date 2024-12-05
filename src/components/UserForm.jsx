@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const UserForm = () => {
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialData = location.state?.userData || {
     fullName: '',
     email: '',
     phone: '',
@@ -9,7 +12,9 @@ const UserForm = () => {
     gender: '',
     shortBio: '',
     profileImage: null
-  });
+  };
+
+  const [formData, setFormData] = useState(initialData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,8 +36,7 @@ const UserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle form submission here
+    navigate('/profile', { state: { userData: formData } });
   };
 
   return (
@@ -64,7 +68,7 @@ const UserForm = () => {
                       </div>
                     )}
                   </div>
-                  <label className="cursor-pointer bg-pink-800 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 transition-colors">
+                  <label className="cursor-pointer bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-800 transition-colors">
                     Upload Photo
                     <input
                       type="file"
@@ -78,14 +82,16 @@ const UserForm = () => {
                 {/* Full Name */}
                 <div className="relative">
                   <input
+                    id="fullName"
                     type="text"
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-emerald-500"
+                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-pink-800"
                     placeholder="Full Name"
+                    required
                   />
-                  <label className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                  <label htmlFor="fullName" className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                     Full Name
                   </label>
                 </div>
@@ -93,14 +99,16 @@ const UserForm = () => {
                 {/* Email */}
                 <div className="relative">
                   <input
+                    id="email"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-emerald-500"
+                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-pink-800"
                     placeholder="Email Address"
+                    required
                   />
-                  <label className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                  <label htmlFor="email" className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                     Email Address
                   </label>
                 </div>
@@ -108,14 +116,16 @@ const UserForm = () => {
                 {/* Phone */}
                 <div className="relative">
                   <input
+                    id="phone"
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-emerald-500"
+                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-pink-800"
                     placeholder="Phone Number"
+                    required
                   />
-                  <label className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                  <label htmlFor="phone" className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                     Phone Number
                   </label>
                 </div>
@@ -123,13 +133,15 @@ const UserForm = () => {
                 {/* Date of Birth */}
                 <div className="relative">
                   <input
+                    id="dateOfBirth"
                     type="date"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
                     onChange={handleChange}
-                    className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-emerald-500"
+                    className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-pink-800"
+                    required
                   />
-                  <label className="absolute left-0 -top-3.5 text-gray-600 text-sm">
+                  <label htmlFor="dateOfBirth" className="absolute left-0 -top-3.5 text-gray-600 text-sm">
                     Date of Birth
                   </label>
                 </div>
@@ -145,7 +157,8 @@ const UserForm = () => {
                         value="male"
                         checked={formData.gender === 'male'}
                         onChange={handleChange}
-                        className="mr-2"
+                        className="mr-2 text-pink-800 focus:ring-pink-800"
+                        required
                       />
                       Male
                     </label>
@@ -156,7 +169,7 @@ const UserForm = () => {
                         value="female"
                         checked={formData.gender === 'female'}
                         onChange={handleChange}
-                        className="mr-2"
+                        className="mr-2 text-pink-800 focus:ring-pink-800"
                       />
                       Female
                     </label>
@@ -167,7 +180,7 @@ const UserForm = () => {
                         value="other"
                         checked={formData.gender === 'other'}
                         onChange={handleChange}
-                        className="mr-2"
+                        className="mr-2 text-pink-800 focus:ring-pink-800"
                       />
                       Other
                     </label>
@@ -177,14 +190,16 @@ const UserForm = () => {
                 {/* Short Bio */}
                 <div className="relative">
                   <textarea
+                    id="shortBio"
                     name="shortBio"
                     value={formData.shortBio}
                     onChange={handleChange}
                     rows="4"
-                    className="peer placeholder-transparent w-full border-2 border-gray-300 rounded-lg p-2 text-gray-900 focus:outline-none focus:border-emerald-500"
+                    className="peer placeholder-transparent w-full border-2 border-gray-300 rounded-lg p-2 text-gray-900 focus:outline-none focus:border-pink-800"
                     placeholder="Short Bio"
+                    required
                   ></textarea>
-                  <label className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                  <label htmlFor="shortBio" className="absolute left-2 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm bg-white px-1">
                     Short Bio
                   </label>
                 </div>
@@ -192,7 +207,7 @@ const UserForm = () => {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-emerald-500 text-white rounded-lg px-4 py-2 hover:bg-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                  className="w-full bg-pink-800 text-white rounded-lg px-4 py-2 hover:bg-pink-900 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-800 focus:ring-offset-2"
                 >
                   Submit
                 </button>
