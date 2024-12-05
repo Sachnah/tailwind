@@ -11,7 +11,7 @@ const Accordion = () => {
                 FAQ
               </span>
               <h2 className="mb-4 text-3xl font-bold text-dark dark:text-white sm:text-[40px]/[48px]">
-                Any Questions? Look Here
+                sachana faq
               </h2>
               <p className="text-base text-body-color dark:text-dark-6">
                 There are many variations of passages of Lorem Ipsum available
